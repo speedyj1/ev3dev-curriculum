@@ -115,7 +115,7 @@ def main():
         if speed or distance is 0:
             break
         speed_in_in_per_second = (0.009908 * speed) + .5292
-        new_speed = distance / (speed_in_in_per_second / 0.009908)
+        new_speed = distance / speed_in_in_per_second
         new_time = distance / speed_in_in_per_second
         left_motor.run_forever(speed_sp=new_speed)
         right_motor.run_forever(speed_sp=new_speed)
