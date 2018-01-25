@@ -114,7 +114,7 @@ def main():
         speed = int(input("Enter a speed (0 to 900 dps): "))
         distance = int(input("Enter a distance to travel (inches): "))
         speed_in_in_per_second = (0.009908 * speed) + .5292
-        new_speed = distance / speed_in_in_per_second
+        new_speed = distance /
         new_time = distance / speed_in_in_per_second
         left_motor.run_forever(speed_sp=new_speed)
         right_motor.run_forever(speed_sp=new_speed)
