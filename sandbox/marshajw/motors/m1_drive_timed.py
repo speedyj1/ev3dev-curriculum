@@ -108,12 +108,11 @@ def main():
     assert left_motor.connected
     assert right_motor.connected
 
-    time_s = 1  # Any value other than 0.
-    while time_s != 0:
+    speed = 1  # Any value other than 0.
+    distance = 1
+    while distance or speed != 0:
         speed = int(input("Enter a speed (0 to 900 dps): "))
         distance = int(input("Enter a distance to travel (inches): "))
-        if speed or distance is 0:
-            break
         speed_in_in_per_second = (0.009908 * speed) + .5292
         new_speed = distance / speed_in_in_per_second
         new_time = distance / speed_in_in_per_second
