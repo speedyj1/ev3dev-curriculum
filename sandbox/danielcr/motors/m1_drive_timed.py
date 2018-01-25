@@ -8,10 +8,10 @@ to collect data, then make an equation to figure out the time needed given the d
 
 Note: If future modules you will learn different (BETTER) ways to drive a given distance.
 
-Authors: David Fisher and PUT_YOUR_NAME_HERE.
-"""  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
+Authors: David Fisher and Chip Daniel.
+"""  # DONE: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
-# TODO: 2. Get a yardstick or tape measure to do some testing with /examples/motors/drive_input_speed.py
+# DONE: 2. Get a yardstick or tape measure to do some testing with /examples/motors/drive_input_speed.py
 #   Have your whole team work this activity together.
 #   For your first test run drive_input_speed (via python drive_input_speed from that folder using SSH).
 #   Enter these values for your first test and record the distance below as XXX for 100.
@@ -29,16 +29,16 @@ Authors: David Fisher and PUT_YOUR_NAME_HERE.
 #
 #  Record your calculated speed conversions here:
 #   Tests @ 10 seconds:
-#     100 degrees / second  -->  traveled XXX inches  -->  YYY inches / second
-#     200 degrees / second  -->  traveled XXX inches  -->  YYY inches / second
-#     300 degrees / second  -->  traveled XXX inches  -->  YYY inches / second
-#     400 degrees / second  -->  traveled XXX inches  -->  YYY inches / second
+#     100 degrees / second  -->  traveled 13.5 inches  -->  1.35 inches / second
+#     200 degrees / second  -->  traveled 24 inches  -->  2.4 inches / second
+#     300 degrees / second  -->  traveled 34.5 inches  -->  3.45 inches / second
+#     400 degrees / second  -->  traveled 44.5 inches  -->  4.45 inches / second
 #   Tests @ 5 seconds:
-#     500 degrees / second  -->  traveled XXX inches  -->  YYY inches / second
-#     600 degrees / second  -->  traveled XXX inches  -->  YYY inches / second
-#     700 degrees / second  -->  traveled XXX inches  -->  YYY inches / second
-#     800 degrees / second  -->  traveled XXX inches  -->  YYY inches / second
-#     900 degrees / second  -->  traveled XXX inches  -->  YYY inches / second (probably no faster than 800)
+#     500 degrees / second  -->  traveled 28.5 inches  -->  5.16 inches / second
+#     600 degrees / second  -->  traveled 34 inches  -->  6.8 inches / second
+#     700 degrees / second  -->  traveled 39 inches  -->  7.8 inches / second
+#     800 degrees / second  -->  traveled 43 inches  -->  8.6 inches / second
+#     900 degrees / second  -->  traveled 44 inches  -->  8.8 inches / second (probably no faster than 800)
 #
 # TODO: 3. Make an equation
 #   Derive from that information a way to convert a given degrees per second speed into an inches / second speed.
@@ -48,13 +48,14 @@ Authors: David Fisher and PUT_YOUR_NAME_HERE.
 #       that would roughly fit most of your data.  Put your value for m below and think about if it most fits:
 #
 #       speed_in_inches_per_second = m * speed_in_degrees_per_second + 0
-#
+#       m = 1.01
 #     Eventually your goal is to make an equation that will allow users to input any distance in inches and any speed in
 #     degrees per second, then output the time needed to drive the correct distance at that speed.  So eventually you
 #     will be making a formula like this...
 #
 #   Time (seconds) = Distance (inches, as input from the user) / Speed (inches/second, as converted based on user input)
-#
+#   (speed - 0.5) * 100 = degrees/ second
+
 #   Note: To repeat again, in later modules you will learn different (better) ways to travel a given distance using
 #     motor encoders, so just make a simple rough approximation here, since later we'll do it better in a different way.
 #
@@ -64,7 +65,37 @@ Authors: David Fisher and PUT_YOUR_NAME_HERE.
 #    print("  Timed Driving")
 #    print("--------------------------------------------")
 #    ev3.Sound.speak("Timed Driving").wait()
-# TODO: 4. Change the input questions from:
+
+    print("--------------------------------------------")
+    print("  Timed Driving")
+    print("--------------------------------------------")
+    ev3.Sound.speak("Drive using input").wait()
+
+    # Connect two large motors on output ports B and C
+    left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
+    right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
+
+    # Check that the motors are actually connected
+    assert left_motor.connected
+    assert right_motor.connected
+
+    time_s = 1  # Any value other than 0.
+    while time_s != 0:
+        left_sp = int(input("Enter a speed (0 to 900 dps): "))
+        right_sp = left_sp
+        time_s = int(input("Enter a distant to travel: "))
+        left_motor.run_forever(speed_sp=left_sp)
+        right_motor.run_forever(speed_sp=right_sp)
+        speed_in_p_sec = left_sp * 0.0101
+
+        time.sleep(time_s / speed_in_p_sec)
+        left_motor.stop()
+        right_motor.stop(stop_action="brake")
+
+    print("Goodbye!")
+    ev3.Sound.speak("Goodbye").wait()
+
+# DONE: 4. Change the input questions from:
 #   Enter a speed for the left motor (0 to 900 dps):
 #   Enter a speed for the right motor (0 to 900 dps):
 #   Enter a time to drive (seconds):
