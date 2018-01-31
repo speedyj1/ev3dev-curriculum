@@ -108,15 +108,17 @@ def main():
     assert left_motor.connected
     assert right_motor.connected
 
-    time_s = 1
-    while time_s != 0:
+    speed = 1
+    distance = 1
+    while speed and distance != 0:
         speed = int(input("Enter a speed (0 to 900 dps): "))
         distance = int(input("Enter a distance to travel (inches): "))
-        new_time = distance / ((speed * 2) / 360)
-        left_motor.run_forever(speed_sp=900)
-        right_motor.run_forever(speed_sp=900)
+        new_speed = speed * 0.0099
+        new_time = distance / new_speed
+        left_motor.run_forever(speed_sp=speed)
+        right_motor.run_forever(speed_sp=speed)
         time.sleep(new_time)
-        left_motor.stop()
+        left_motor.stop(stop_action="brake")
         right_motor.stop(stop_action="brake")
 
     print("Goodbye!")
