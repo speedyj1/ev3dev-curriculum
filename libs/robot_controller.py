@@ -17,9 +17,7 @@ import time
 
 
 class Snatch3r(object):
-    """Commands for the Snatch3r robot that might be useful in many different programs."""
-    
-    # TODO: Implement the Snatch3r class as needed when working the sandbox exercises
+
     def __init__(self):
         self.left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
         self.right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
@@ -34,3 +32,15 @@ class Snatch3r(object):
             self.right_motor.run_to_rel_pos(position_sp=rotations_in_degrees, speed_sp=speed_deg_per_second)
         self.left_motor.wait_while(ev3.Motor.STATE_RUNNING)
         ev3.Sound.beep().wait()
+
+    def turn_degrees(self, degrees_to_turn, turn_speed_sp):
+        degrees_per_turning_degree = 4
+        degrees_per_wheel = degrees_to_turn * degrees_per_turning_degree
+        if turn_speed_sp < 0:
+            self.left_motor.run_to_rel_pos(position_sp=degrees_per_wheel, speed_sp=turn_speed_sp)
+            self.right_motor.run_to_rel_pos(position_sp=-degrees_per_wheel, speed_sp=turn_speed_sp)
+        if turn_speed_sp > 0:
+            self.left_motor.run_to_rel_pos(position_sp=-degrees_per_wheel, speed_sp=turn_speed_sp)
+            self.right_motor.run_to_rel_pos(position_sp=degrees_per_wheel, speed_sp=turn_speed_sp)
+        self.left_motor.wait_while(ev3.Motor.STATE_RUNNING)
+        self.right_motor.wait_while(ev3.Motor.STATE_RUNNING)

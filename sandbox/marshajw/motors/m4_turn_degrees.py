@@ -14,7 +14,7 @@ Authors: David Fisher and Jack Marshall.
 #     ev3.Sound.speak("Turn degrees").wait()
 #   You will need to modify that code for this problem, but it is a handy starting point.
 
-# TODO: 3. Create a method in your library called turn_degrees that receives the degrees_to_turn and turn_speed_sp
+# DONE: 3. Create a method in your library called turn_degrees that receives the degrees_to_turn and turn_speed_sp
 #   To help you get started here is a potential method signature line that will be in your library.
 #
 #   def turn_degrees(self, degrees_to_turn, turn_speed_sp):
@@ -78,5 +78,6 @@ def main():
 
     print("Goodbye!")
     ev3.Sound.speak("Goodbye").wait()
+
 
 main()
