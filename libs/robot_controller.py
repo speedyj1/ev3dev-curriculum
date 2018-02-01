@@ -23,7 +23,10 @@ class Snatch3r(object):
         self.right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
         assert self.left_motor.connected
         assert self.right_motor.connected
-
+    """
+    drive_inches takes in a distance in inches and converts it to degrees for the motor to turn. This function runs both
+    motors the same distance at the same speed. This function beeps when it is finished.
+    """
     def drive_inches(self, inches_target, speed_deg_per_second):
         degrees_per_inch = 90
         rotations_in_degrees = inches_target * degrees_per_inch
@@ -31,8 +34,13 @@ class Snatch3r(object):
             self.left_motor.run_to_rel_pos(position_sp=rotations_in_degrees, speed_sp=speed_deg_per_second)
             self.right_motor.run_to_rel_pos(position_sp=rotations_in_degrees, speed_sp=speed_deg_per_second)
         self.left_motor.wait_while(ev3.Motor.STATE_RUNNING)
+        self.right_motor.wait_while(ev3.Motor.STATE_RUNNING)
         ev3.Sound.beep().wait()
 
+    """
+    turn_degrees is made to take input on degrees to turn. It moves the motors in opposite directions depending on if
+    the input is positive or negative. The function will beep when it has finished.
+    """
     def turn_degrees(self, degrees_to_turn, turn_speed_sp):
         degrees_per_turning_degree = 4
         degrees_per_wheel = degrees_to_turn * degrees_per_turning_degree
