@@ -40,7 +40,7 @@ Authors: David Fisher and Jack Speedy.
 #     800 degrees / second  -->  traveled 43 inches  -->  8.6 inches / second
 #     900 degrees / second  -->  traveled 44 inches  -->  8.8 inches / second (probably no faster than 800)
 #
-# TODO: 3. Make an equation
+# DONE: 3. Make an equation
 #   Derive from that information a way to convert a given degrees per second speed into an inches / second speed.
 #     If you plotted the data with degrees / second on the x axis and inches per second on the y axis you would find the
 #       data is fairly linear, so you could use a    y = m * x + b   line approximation formula.  Excel could even help
@@ -68,32 +68,7 @@ import ev3dev.ev3 as ev3
 import time
 
 
-def main():
-    print("--------------------------------------------")
-    print("  Timed Driving")
-    print("--------------------------------------------")
-    ev3.Sound.speak("Timed Driving").wait()
-    # Connect two large motors on output ports B and C
-    left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
-    right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
-    # Check that the motors are actually connected
-    assert left_motor.connected
-    assert right_motor.connected
-    time_s = 1
-    while time_s != 0:
-        speed = int(input("Enter a speed (0 to 900 dps): "))
-        distance = int(input("Enter a distance to drive (inches): "))
-        speed_in_inches_per_second = speed / 99
-        left_motor.run_forever(speed_sp=speed_in_inches_per_second)
-        right_motor.run_forever(speed_sp=speed_in_inches_per_second)
-        time_s = distance / speed_in_inches_per_second
-        time.sleep(time_s)
-        left_motor.stop()
-        right_motor.stop(stop_action="brake")
-    print("Goodbye!")
-    ev3.Sound.speak("Goodbye").wait()
 
-main()
 # DONE: 4. Change the input questions from:
 #   Enter a speed for the left motor (0 to 900 dps):
 #   Enter a speed for the right motor (0 to 900 dps):
@@ -108,7 +83,7 @@ main()
 #      stop()
 #   You may NOT use the advanced motor commands at this time like: run_to_abs_pos, run_to_rel_pos, or run_timed.
 # DONE: 6. Modify the program so that it will exit immediately if the answer to   any   question is 0.
-# TODO: 7. Formally test your work. When you think you have the problem complete run these tests to be sure:
+# DONE: 7. Formally test your work. When you think you have the problem complete run these tests to be sure:
 #   200 dps 24 inches (make sure it drives within 6 inches of the target distance)
 #   400 dps 24 inches (make sure it drives within 6 inches of the target distance)
 #   800 dps 24 inches (make sure it drives within 6 inches of the target distance)
@@ -116,6 +91,41 @@ main()
 #   400 dps 36 inches (make sure it drives within 9 inches of the target distance)
 # Do more tests if you see fit.  Ideally you should be +/- 25% of the target goal.
 #
-# TODO: 8. Call over a TA or instructor to sign your team's checkoff sheet and do a code review.
+# DONE: 8. Call over a TA or instructor to sign your team's checkoff sheet and do a code review.
 #
 #  Observation you should make, the pattern run_forever-->time.sleep-->stop naturally blocks code execution until done.
+import ev3dev.ev3 as ev3
+import time
+
+def main():
+    print("--------------------------------------------")
+    print("  Drive using input")
+    print("------------------------------------------d--")
+    ev3.Sound.speak("Drive using input").wait()
+
+    # Connect two large motors on output ports B and C
+    left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
+    right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
+
+    # Check that the motors are actually connected
+    assert left_motor.connected
+    assert right_motor.connected
+
+    speed = 1
+    distance = 1
+    while speed and distance != 0:
+        speed = int(input("Enter a speed (0 to 900 dps): "))
+        distance = int(input("Enter a distance to travel (inches): "))
+        new_speed = speed * 0.0099
+        new_time = distance / new_speed
+        left_motor.run_forever(speed_sp=speed)
+        right_motor.run_forever(speed_sp=speed)
+        time.sleep(new_time)
+        left_motor.stop(stop_action="brake")
+        right_motor.stop(stop_action="brake")
+
+    print("Goodbye!")
+    ev3.Sound.speak("Goodbye").wait()
+
+
+main()
