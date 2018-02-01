@@ -77,7 +77,7 @@ def main():
         ev3.Sound.beep().wait()  # Fun little beep
 
     print("Goodbye!")
-    ev3.Sound.speak("Goodbye").wait()
+    ev3.Sound.speak("What is my purpose?").wait()
 
 
 # ----------------------------------------------------------------------
