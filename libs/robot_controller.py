@@ -23,6 +23,8 @@ class Snatch3r(object):
         self.right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
         assert self.left_motor.connected
         assert self.right_motor.connected
+        self.color_sensor = ev3.ColorSensor(ev3.INPUT)
+        assert self.color_sensor
     """
     drive_inches takes in a distance in inches and converts it to degrees for the motor to turn. This function runs both
     motors the same distance at the same speed. This function beeps when it is finished.
@@ -54,5 +56,4 @@ class Snatch3r(object):
         self.right_motor.wait_while(ev3.Motor.STATE_RUNNING)
 
     def drive_to_color(self, ):
-        self.color_sensor = ev3.ColorSensor()
-        assert self.color_sensor
+
