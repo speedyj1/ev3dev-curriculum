@@ -40,7 +40,7 @@ Authors: David Fisher and Chip Daniel.
 #     800 degrees / second  -->  traveled 43 inches  -->  8.6 inches / second
 #     900 degrees / second  -->  traveled 44 inches  -->  8.8 inches / second (probably no faster than 800)
 #
-# TODO: 3. Make an equation
+# DONE: 3. Make an equation
 #   Derive from that information a way to convert a given degrees per second speed into an inches / second speed.
 #     If you plotted the data with degrees / second on the x axis and inches per second on the y axis you would find the
 #       data is fairly linear, so you could use a    y = m * x + b   line approximation formula.  Excel could even help
@@ -59,7 +59,7 @@ Authors: David Fisher and Chip Daniel.
 #   Note: To repeat again, in later modules you will learn different (better) ways to travel a given distance using
 #     motor encoders, so just make a simple rough approximation here, since later we'll do it better in a different way.
 #
-# TODO: 3. Copy the content of the /examples/motors/drive_input_speed.py program and place it below these comments.
+# DONE: 3. Copy the content of the /examples/motors/drive_input_speed.py program and place it below these comments.
 #   Change the initial print and speak commands to reflect this module, like this...
 #    print("--------------------------------------------")
 #    print("  Timed Driving")
@@ -84,14 +84,14 @@ def main():
     assert left_motor.connected
     assert right_motor.connected
 
-    time_s = 1  # Any value other than 0.
-    while time_s != 0:
+    distance_in = 1  # Any value other than 0.
+    while distance_in != 0:
         left_sp = int(input("Enter a speed (0 to 900 dps): "))
         right_sp = left_sp
         distance_in = int(input("Enter a distant to travel: "))
         left_motor.run_forever(speed_sp=left_sp)
         right_motor.run_forever(speed_sp=right_sp)
-        speed_in_p_sec = left_sp * 0.0101
+        speed_in_p_sec = left_sp * 0.0099
 
         time.sleep(distance_in / speed_in_p_sec)
         left_motor.stop()
@@ -109,7 +109,7 @@ main()
 # to:
 #   Enter a speed (0 to 900 dps):
 #   Distance to travel (inches):
-# TODO: 5. Write the code necessary to make the robot drive at that speed going roughly that distance.
+# DONE: 5. Write the code necessary to make the robot drive at that speed going roughly that distance.
 #   Note, in this module, you are REQUIRED to use the pattern...
 #      run_forever()
 #      time.sleep(some_amount)
