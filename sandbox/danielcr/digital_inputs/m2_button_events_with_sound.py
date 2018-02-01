@@ -9,7 +9,7 @@ Since this module is all about the buttons the Sound code has just been provided
 example.  You will call different Sound functions using different buttons.
 
 Authors: David Fisher and Chip Daniel.
-"""  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
+"""  # DONE: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
 import ev3dev.ev3 as ev3
 import time
@@ -52,6 +52,12 @@ def main():
     # Here is one for free...
     #  btn.on_up = handle_up_button
 
+    ev3.Button.on_up(handle_up_button)
+    ev3.Button.on_down(handle_down_function)
+    ev3.Button.on_left(handle_left_function)
+    ev3.Button.on_right(handle_right_function)
+
+
     # TODO: 5. Note #4 is lower (this is TO DO #5 which you should do after #4).
     # Add a lambda callback for on_backspace.  The syntax of lambda is:
     #   btn.on_backspace = lamdba predefined_inputs: function_name(parameters)
@@ -89,6 +95,26 @@ def handle_up_button(button_state):
     else:
         print("Up button was released")
 
+
+def handle_down_function(button_state):
+    if button_state:
+        print("Down button is pressed")
+    else:
+        print("Down button was released")
+
+
+def handle_left_function(button_state):
+    if button_state:
+        print("Down button is pressed")
+    else:
+        print("Down button was released")
+
+
+def handle_right_function(button_state):
+    if button_state:
+        print("Down button is pressed")
+    else:
+        print("Down button was released")
 
 # TODO: 6. Implement the handle_shutdown function.
 #   Function signature should be:
