@@ -60,7 +60,10 @@ class Snatch3r(object):
         self.right_motor.wait_while(ev3.Motor.STATE_RUNNING)
 
     def arm_calibration(self):
-        ""
+        """
+        arm_calibration will close the arm and raise it as fast as possible and beep when the arm reaches the top.
+        It will then lower the arm completely and open the arm after. It will also beep at the bottom.
+        """
         self.arm_motor.run_forever(speed_sp=self.max_speed)
         while not self.touch_sensor.is_pressed:
             time.sleep(0.01)
