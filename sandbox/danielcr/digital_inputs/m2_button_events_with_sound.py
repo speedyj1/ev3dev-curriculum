@@ -68,7 +68,7 @@ def main():
     # Using lambda call the function handle_shutdown passing in the state and dc
     # Note: the function handle_shutdown does not exist yet, you will write it in todo6.
 
-    btn.on_backspace = lamdba predefined_inputs: function_name(parameters)
+    btn.on_backspace = lambda on_backspace: handle_shutdown(button_state, dc)
 
     while dc.running:
         btn.process()  # This command is VERY important when using button callbacks!
