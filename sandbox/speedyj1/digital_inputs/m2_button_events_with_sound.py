@@ -51,11 +51,16 @@ def main():
     #   .on_right to call handle_right_button (that function does not exist yet, you will write it in todo4)
     # Here is one for free...
     btn.on_up = handle_up_button
-    btn.on_down = handle_down_button
-    btn.on_left = handle_left_button
-    btn.on_right = handle_right_button
+    btn.on_down = handle_down_function
+    btn.on_left = handle_left_function
+    btn.on_right = handle_right_function
 
-    # TODO: 5. Note #4 is lower (this is TO DO #5 which you should do after #4).
+    ev3.Button.on_up(handle_up_button)
+    ev3.Button.on_down(handle_down_function)
+    ev3.Button.on_left(handle_left_function)
+    ev3.Button.on_right(handle_right_function)
+
+    # DONE: 5. Note #4 is lower (this is TO DO #5 which you should do after #4).
     # Add a lambda callback for on_backspace.  The syntax of lambda is:
     #   btn.on_backspace = lamdba predefined_inputs: function_name(parameters)
     # You will need to change the predefined_inputs, function_name, and parameters from that syntax template.
@@ -93,21 +98,21 @@ def handle_up_button(button_state):
     else:
         print("Up button was released")
 
-def handle_down_button(button_state):
+def handle_down_function(button_state):
     if button_state:
         print("Down button is pressed")
         play_song_by_notes_list()
     else:
         print("Down button was released")
 
-def handle_left_button(button_state):
+def handle_left_function(button_state):
     if button_state:
         print("Left button is pressed")
         speak()
     else:
         print("Left button was released")
 
-def handle_right_button(button_state):
+def handle_right_function(button_state):
     if button_state:
         print("Left button is pressed")
         play_wav_file()
@@ -132,7 +137,7 @@ def handle_shutdown(button_state, dc):
         dc.running = False
 
 
-# TODO: 7. Call over a TA or instructor to sign your team's checkoff sheet and do a code review.
+# DONE: 7. Call over a TA or instructor to sign your team's checkoff sheet and do a code review.
 #
 # Observations you should make, button events are better because you get called only once per press, however, callbacks
 #   make it a bit tricker to pass data around (which is why we used the DataContainer object).
