@@ -23,6 +23,11 @@ class Snatch3r(object):
         self.right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
         assert self.left_motor.connected
         assert self.right_motor.connected
+        self.arm_motor = ev3.MediumMotor(ev3.OUTPUT_A)
+        self.touch_sensor = ev3.TouchSensor(ev3.INPUT_1)
+        assert self.touch_sensor.connected
+        assert self.arm_motor.connected
+        self.max_speed = 900
     """
     drive_inches takes in a distance in inches and converts it to degrees for the motor to turn. This function runs both
     motors the same distance at the same speed. This function beeps when it is finished.
@@ -53,6 +58,39 @@ class Snatch3r(object):
         self.left_motor.wait_while(ev3.Motor.STATE_RUNNING)
         self.right_motor.wait_while(ev3.Motor.STATE_RUNNING)
 
-    def drive_to_color(self, ):
-        self.color_sensor = ev3.ColorSensor()
-        assert self.color_sensor
+    def arm_calibration(self):
+        self.arm_motor.run_forever(speed_sp=self.max_speed)
+        while not self.touch_sensor.is_pressed:
+            time.sleep(0.01)
+        self.arm_motor.stop(stop_action="brake")
+        self.arm_motor.stop()
+        ev3.Sound.beep().wait()
+        arm_revolutions_for_full_range = 14.2 * 360
+        self.arm_motor.run_to_rel_pos(
+            position_sp=-arm_revolutions_for_full_range)
+        self.arm_motor.wait_while(ev3.Motor.STATE_RUNNING)
+        ev3.Sound.beep().wait()
+        self.arm_motor.position = 0
+
+    def arm_up(self):
+        self.arm_motor.run_forever(speed_sp=self.max_speed)
+        while not self.touch_sensor.is_pressed:
+            time.sleep(0.01)
+        self.arm_motor.stop(stop_action="brake")
+        self.arm_motor.stop()
+        ev3.Sound.beep().wait()
+
+    def arm_down(self):
+        self.arm_motor.run_to_abs_pos(position_sp=0, speed_sp=self.max_speed)
+        self.arm_motor.wait_while(ev3.Motor.STATE_RUNNING)
+        ev3.Sound.beep().wait()
+
+    def shutdown(self):
+        self.arm_motor.stop()
+        self.left_motor.stop()
+        self.right_motor.stop()
+        ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.GREEN)
+        ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.GREEN)
+        print('Goodbye!')
+        ev3.Sound.speak("Goodbye").wait()
+
