@@ -100,7 +100,6 @@ class Snatch3r(object):
         shutdown is made to stop all movement of the robot and finish running code when the desired button is pressed.
         This function changes the LEDs to Green and says 'Goodbye' before after everything is stopped.
         """
-        :return:
         self.arm_motor.stop()
         self.left_motor.stop()
         self.right_motor.stop()
