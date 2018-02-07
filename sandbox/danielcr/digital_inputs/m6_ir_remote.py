@@ -73,10 +73,10 @@ def main():
     rc1 = ev3.RemoteControl(channel=1)
     rc2 = ev3.RemoteControl(channel=2)
 
-    rc1.on_red_up = lambda state: handle_forward_left(state, dc)
-    rc1.on_red_down = lambda state: handle_red_down_1(state, dc)
-    rc1.on_blue_up = lambda state: handle_blue_up_1(state, dc)
-    rc1.on_blue_down = lambda state: handle_blue_down_1(state, dc)
+    rc1.on_red_up = lambda state: left_forward(state)
+    rc1.on_red_down = lambda state: left_backward(state)
+    rc1.on_blue_up = lambda state: right_forward(state)
+    rc1.on_blue_down = lambda state: right_backward(state)
 
     rc2.on_red_up = lambda state: handle_arm_up_button(state, dc)
     rc2.on_red_down = lambda state: handle_arm_down_button(state, dc)
@@ -108,9 +108,9 @@ def main():
 # Some event handlers have been written for you (ones for the arm).
 # Movement event handlers have not been provided.
 # ----------------------------------------------------------------------
-# TODO: 6. Implement the IR handler callbacks handlers.
+# DONE: 6. Implement the IR handler callbacks handlers.
 
-# TODO: 7. When your program is complete, call over a TA or instructor to sign your checkoff sheet and do a code review.
+# DONE: 7. When your program is complete, call over a TA or instructor to sign your checkoff sheet and do a code review.
 #
 # Observations you should make, IR buttons are a fun way to control the robot.
 
