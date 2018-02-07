@@ -44,6 +44,10 @@ class DataContainer(object):
     def __init__(self):
         self.running = True
 
+left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
+right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
+assert left_motor.connected
+assert right_motor.connected
 
 def main():
     print("--------------------------------------------")
@@ -68,8 +72,24 @@ def main():
 
     robot.arm_calibration()  # Start with an arm calibration in this program.
 
+    rc1 = ev3.RemoteControl(channel=1)
+
+    rc1.on_red_up = lambda state: left_forward(state)
+    rc1.on_red_down = lambda state: left_backward(state)
+    rc1.on_blue_up = lambda state: right_forward(state)
+    rc1.on_blue_down = lambda state: right_backward(state)
+
+    rc2 = ev3.RemoteControl(channel=2)
+
+    rc2.on_red_up = lambda state: handle_arm_up_button(state, robot)
+    rc2.on_red_down = lambda state: handle_arm_down_button(state, robot)
+    rc2.on_blue_up = lambda state: handle_calibrate_button(state, robot)
+    rc2.on_blue_down = lambda state: handle_shutdown(state, dc)
+
     while dc.running:
-        # TODO: 5. Process the RemoteControl objects.
+        # DONE: 5. Process the RemoteControl objects.
+        rc1.process()
+        rc2.process()
         btn.process()
         time.sleep(0.01)
 
@@ -85,9 +105,9 @@ def main():
 # Some event handlers have been written for you (ones for the arm).
 # Movement event handlers have not been provided.
 # ----------------------------------------------------------------------
-# TODO: 6. Implement the IR handler callbacks handlers.
+# DONE: 6. Implement the IR handler callbacks handlers.
 
-# TODO: 7. When your program is complete, call over a TA or instructor to sign your checkoff sheet and do a code review.
+# DONE: 7. When your program is complete, call over a TA or instructor to sign your checkoff sheet and do a code review.
 #
 # Observations you should make, IR buttons are a fun way to control the robot.
 
@@ -139,6 +159,29 @@ def handle_shutdown(button_state, dc):
     if button_state:
         dc.running = False
 
+def left_forward(button_state):
+    if button_state:
+        left_motor.run_forever(speed_sp=900)
+    else:
+        left_motor.stop(stop_action="brake")
+
+def right_forward(button_state):
+    if button_state:
+        right_motor.run_forever(speed_sp=900)
+    else:
+        right_motor.stop(stop_action="brake")
+
+def left_backward(button_state):
+    if button_state:
+        left_motor.run_forever(speed_sp=-900)
+    else:
+        left_motor.stop(stop_action="brake")
+
+def right_backward(button_state):
+    if button_state:
+        right_motor.run_forever(speed_sp=-900)
+    else:
+        right_motor.stop(stop_action="brake")
 # ----------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
 # ----------------------------------------------------------------------

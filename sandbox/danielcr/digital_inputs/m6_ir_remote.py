@@ -44,6 +44,10 @@ class DataContainer(object):
     def __init__(self):
         self.running = True
 
+left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
+right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
+assert left_motor.connected
+assert right_motor.connected
 
 def main():
     print("--------------------------------------------")
@@ -159,11 +163,32 @@ def handle_shutdown(button_state, dc):
         dc.running = False
 
 
-def handle_forward_left(button_state, robot):
-    left_motor()
-    while button_state:
-        time.sleep(0.01)
-            
+def left_forward(button_state):
+    if button_state:
+        left_motor.run_forever(speed_sp=900)
+    else:
+        left_motor.stop(stop_action="brake")
+
+
+def right_forward(button_state):
+    if button_state:
+        right_motor.run_forever(speed_sp=900)
+    else:
+        right_motor.stop(stop_action="brake")
+
+
+def left_backward(button_state):
+    if button_state:
+        left_motor.run_forever(speed_sp=-900)
+    else:
+        left_motor.stop(stop_action="brake")
+
+
+def right_backward(button_state):
+    if button_state:
+        right_motor.run_forever(speed_sp=-900)
+    else:
+        right_motor.stop(stop_action="brake")
 
 
 # ----------------------------------------------------------------------
