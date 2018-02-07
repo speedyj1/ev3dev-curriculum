@@ -95,6 +95,21 @@ def drive_to_color(button_state, robot, color_to_seek):
         #   assert self.color_sensor
         # Then here you can use a command like robot.color_sensor.color to check the value
 
+        while True:
+            robot.drive(300, 300)
+            time.sleep(0.1)
+            print("moving")
+            print(int(color_to_seek))
+            print(robot.color_sensor)
+            if robot.color_sensor == int(color_to_seek):
+                robot.stop()
+                print("color test")
+
+                break
+
+
+
+
 
 
         # TODO: 4. Call over a TA or instructor to sign your team's checkoff sheet.
