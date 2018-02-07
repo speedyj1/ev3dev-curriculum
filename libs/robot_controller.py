@@ -110,3 +110,9 @@ class Snatch3r(object):
         print('Goodbye!')
         ev3.Sound.speak("Goodbye").wait()
 
+    def color_sensor(selfs):
+        """
+        color_sensor is made to use the sensors on EV3 and return information to the pc and also control the drive
+        motors when a certain color is found
+        """
+
