@@ -29,6 +29,9 @@ class Snatch3r(object):
         self.max_speed = 900
         self.color_sensor = ev3.ColorSensor(ev3.INPUT_3)
         assert self.color_sensor.connected
+        self.ir_sensor = ev3.InfraredSensor(ev3.INPUT_4)
+        assert self.ir_sensor
+        self.beacon_seeker = ev3.BeaconSeeker(channel=4)
 
     def loop_forever(self):
         self.running = True
