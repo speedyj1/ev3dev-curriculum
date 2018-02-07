@@ -27,6 +27,8 @@ class Snatch3r(object):
         assert self.touch_sensor.connected
         assert self.arm_motor.connected
         self.max_speed = 900
+        self.color_sensor = ev3.ColorSensor(ev3.INPUT_3)
+        assert self.color_sensor.connected
 
     def loop_forever(self):
         self.running = True
