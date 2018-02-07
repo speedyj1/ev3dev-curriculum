@@ -29,6 +29,8 @@ class Snatch3r(object):
         self.max_speed = 900
         self.color_sensor = ev3.ColorSensor(ev3.INPUT_3)
         assert self.color_sensor.connected
+        self.pixy = ev3.Sensor(driver_name="pixy-lego")
+        assert self.pixy
 
     def loop_forever(self):
         self.running = True
