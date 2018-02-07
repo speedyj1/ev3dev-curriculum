@@ -75,6 +75,7 @@ def follow_the_line(robot, white_level, black_level):
       :type white_level: int
       :type black_level: int
     """
+    robot.drive(300, 300)
     if robot.color_sensor.reflected_light_intensity >= (white_level - black_level):
         robot.drive(300, 300)
     else:
