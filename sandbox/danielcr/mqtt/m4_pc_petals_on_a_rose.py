@@ -15,6 +15,7 @@ number of dice to help you figure out the pattern more quickly.
 
 To check off this part of the assignment win the game (without looking at the EV3 code).
 
+
 Authors: David Fisher and Chip Daniel.
 """  # DONE: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
@@ -22,6 +23,7 @@ import tkinter
 from tkinter import ttk
 
 import mqtt_remote_method_calls as com
+
 
 class MyDelegate(object):
     def guess_response(self, message_from_ev3):
@@ -40,7 +42,7 @@ def main():
     # Create an mqtt_client object from the com.MqttClient class passing in my_delegate
     # connect_to_ev3
     my_delegate = MyDelegate()
-    mqtt_client - com.MqttClient(my_delegate)
+    mqtt_client = com.MqttClient(my_delegate)
     mqtt_client.connect_to_ev3()
 
     root = tkinter.Tk()
@@ -90,9 +92,9 @@ def set_num_dice(mqtt_client, num_dice_entry):
     """ Calls a method on EV3 called 'set_number_of_dice' passing in an int from the num_dice_entry. """
     # DONE: 6. Write the line of code necessary to implement this method based on the doc string's description.
 
-    mqtt_client.send_message("set_numbwe_of_dice", [int(num_dice_entry.get())])
+    mqtt_client.send_message("set_number_of_dice", [int(num_dice_entry.get())])
 
-# TODO: 7. See if you can solve the mystery.  Based on the dice how can you solve Petals on a Rose?
+# DONE: 7. See if you can solve the mystery.  Based on the dice how can you solve Petals on a Rose?
 # To check off this part of the assignment figure out the pattern and win the game (without looking at the EV3 code).
 
 
