@@ -13,6 +13,7 @@
 
 import ev3dev.ev3 as ev3
 import time
+import math
 
 
 class Snatch3r(object):
@@ -131,4 +132,34 @@ class Snatch3r(object):
         ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.GREEN)
         print('Goodbye!')
         ev3.Sound.speak("Goodbye").wait()
+
+    def seek_beacon(self):
+        forward_speed = 300
+        turn_speed = 100
+        while not self.touch_sensor.is_pressed:
+            current_heading = self.beacon_seeker.heading
+            current_distance = self.beacon_seeker.distance
+            if current_distance == -128:
+                print("IR Remote not found. Distance is -128")
+                self.stop()
+            else:
+                if math.fabs(current_heading) < 2:
+                    print("On the right heading. Distance: ", current_distance)
+                    if current_distance == 0:
+                        self.stop()
+                        return True
+                    if current_distance > 0:
+                        self.drive(forward_speed, forward_speed)
+                if math.fabs(current_heading) > 2 and math.fabs(current_heading) < 10:
+                    self.drive(-forward_speed, forward_speed)
+                    if current_heading < 0:
+                        self.drive(-turn_speed, turn_speed)
+                    if current_heading > 0:
+                        self.drive(turn_speed, -turn_speed)
+                if math.fabs(current_heading) > 10:
+                    self.stop()
+            time.sleep(0.2)
+        print("Abandon ship!")
+        self.stop()
+        return False
 
