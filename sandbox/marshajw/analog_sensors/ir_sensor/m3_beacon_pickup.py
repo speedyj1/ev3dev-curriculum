@@ -37,13 +37,18 @@ def main():
     # There are no TODOs in this code.
     # Your only edits will be in the Snatch3r class.
     #####################################################
-
     robot = robo.Snatch3r()
     try:
         while True:
             found_beacon = robot.seek_beacon()
             if found_beacon:
                 ev3.Sound.speak("I got the beacon")
+                #
+                # robot.left_motor.wait_while(ev3.Motor.STATE_RUNNING)
+                # robot.right_motor.wait_while(ev3.Motor.STATE_RUNNING)
+                # ev3.Sound.beep().wait()
+                # robot.drive_inches(5, 200)
+                #
                 robot.arm_up()
                 time.sleep(1)
                 robot.arm_down()

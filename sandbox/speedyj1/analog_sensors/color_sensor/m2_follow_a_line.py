@@ -20,6 +20,8 @@ import time
 
 import robot_controller as robo
 
+touch_sensor = ev3.TouchSensor()
+assert touch_sensor
 
 def main():
     print("--------------------------------------------")
@@ -43,14 +45,12 @@ def main():
             #   self.color_sensor = ev3.ColorSensor()
             #   assert self.color_sensor
             # Then here you can use a command like robot.color_sensor.reflected_light_intensity
-            if robot.color_sensor.reflected_light_intensity >= 90:
-                white_level = robot.color_sensor.reflected_light_intensity
+            white_level = robot.color_sensor.reflected_light_intensity
             print("New white level is {}.".format(white_level))
         elif command_to_run == 'b':
             print("Calibrate the black light level")
             # DONE: 3. Read the reflected_light_intensity property of the color sensor and set black_level
-            if robot.color_sensor.reflected_light_intensity <= 10:
-                black_level = robot.color_sensor.reflected_light_intensity
+            black_level = robot.color_sensor.reflected_light_intensity
             print("New black level is {}.".format(black_level))
         elif command_to_run == 'f':
             print("Follow the line until the touch sensor is pressed.")
@@ -75,18 +75,14 @@ def follow_the_line(robot, white_level, black_level):
       :type white_level: int
       :type black_level: int
     """
-    robot.drive(300, 300)
-    if robot.color_sensor.reflected_light_intensity >= (white_level - black_level):
-        robot.drive(300, 300)
-    else:
-        robot.drive(500,300)
+    while robot.touch_sensor.is_pressed:
+
+
 
     # TODO: 5. Use the calibrated values for white and black to calculate a light threshold to determine if your robot
     # should drive straight or turn to the right.  You will need to test and refine your code until it works well.
     # Optional extra - For a harder challenge could you drive on the black line and handle left or right turns?
 
-    robot.stop()
-    ev3.Sound.speak("Done")
 
 
 # TODO: 6. Call over a TA or instructor to sign your team's checkoff sheet and do a code review.
