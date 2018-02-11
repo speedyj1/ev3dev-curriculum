@@ -111,7 +111,6 @@ def drive_to_color(button_state, robot, color_to_seek):
 
 
 
-
         # TODO: 4. Call over a TA or instructor to sign your team's checkoff sheet.
         #
         # Observations you should make, the instance variable robot.color_sensor.color is always updating
