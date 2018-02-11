@@ -33,6 +33,8 @@ class Snatch3r(object):
         self.ir_sensor = ev3.InfraredSensor(ev3.INPUT_4)
         assert self.ir_sensor
         self.beacon_seeker = ev3.BeaconSeeker(channel=4)
+        self.pixy = ev3.Sensor(driver_name="pixy-lego")
+        assert self.pixy
 
     def loop_forever(self):
         self.running = True
@@ -151,13 +153,12 @@ class Snatch3r(object):
                     if current_distance > 0:
                         self.drive(forward_speed, forward_speed)
                 if math.fabs(current_heading) > 2 and math.fabs(current_heading) < 10:
-                    self.drive(-forward_speed, forward_speed)
                     if current_heading < 0:
                         self.drive(-turn_speed, turn_speed)
                     if current_heading > 0:
                         self.drive(turn_speed, -turn_speed)
                 if math.fabs(current_heading) > 10:
-                    self.stop()
+                    self.drive(-forward_speed, forward_speed)
             time.sleep(0.2)
         print("Abandon ship!")
         self.stop()
