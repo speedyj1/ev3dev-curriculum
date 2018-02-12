@@ -39,7 +39,16 @@ def main():
     quit_button.grid(row=3, column=1)
     quit_button['command'] = lambda: quit_game(mqtt_client)
 
+    robot = robo.Snatch3r()
+    dc = DataContainer()
+
     rc1 = ev3.RemoteControl(channel=1)
+
+    while dc.running:
+        rc1.process()
+        rc2.process()
+        btn.process()
+        time.sleep(0.01)
 
     rc1.on_red_up = lambda state: left_forward(state)
     rc1.on_red_down = lambda state: left_backward(state)
