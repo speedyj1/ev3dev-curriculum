@@ -69,4 +69,15 @@ def right_forward(button_state):
     else:
         right_motor.stop(stop_action='brake')
 
+def left_backward(button_state):
+    if button_state:
+        left_motor.run_forever(speed_sp=-600)
+    else:
+        left_motor.stop(stop_action='brake')
+
+def right_backward(button_state):
+    if button_state:
+        right_motor.run_forever(speed_sp=-600)
+    else:
+        right_motor.stop(stop_action='brake')
 main()
