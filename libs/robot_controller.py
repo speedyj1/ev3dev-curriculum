@@ -21,19 +21,20 @@ class Snatch3r(object):
     def __init__(self):
         self.left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
         self.right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
-        assert self.left_motor.connected
-        assert self.right_motor.connected
         self.arm_motor = ev3.MediumMotor(ev3.OUTPUT_A)
         self.touch_sensor = ev3.TouchSensor(ev3.INPUT_1)
-        assert self.touch_sensor.connected
-        assert self.arm_motor.connected
         self.max_speed = 900
         self.color_sensor = ev3.ColorSensor(ev3.INPUT_3)
-        assert self.color_sensor.connected
         self.ir_sensor = ev3.InfraredSensor(ev3.INPUT_4)
-        assert self.ir_sensor
         self.beacon_seeker = ev3.BeaconSeeker(channel=4)
         self.pixy = ev3.Sensor(driver_name="pixy-lego")
+
+        assert self.left_motor.connected
+        assert self.right_motor.connected
+        assert self.touch_sensor.connected
+        assert self.arm_motor.connected
+        assert self.color_sensor.connected
+        assert self.ir_sensor
         assert self.pixy
 
     def loop_forever(self):
@@ -55,8 +56,8 @@ class Snatch3r(object):
 
     def drive_inches(self, inches_target, speed_deg_per_second):
         """
-            drive_inches takes in a distance in inches and converts it to degrees for the motor to turn. This function runs both
-            motors the same distance at the same speed. This function beeps when it is finished.
+            drive_inches takes in a distance in inches and converts it to degrees for the motor to turn. This function
+            runs both motors the same distance at the same speed. This function beeps when it is finished.
             """
         degrees_per_inch = 90
         rotations_in_degrees = inches_target * degrees_per_inch
@@ -69,8 +70,8 @@ class Snatch3r(object):
 
     def turn_degrees(self, degrees_to_turn, turn_speed_sp):
         """
-        turn_degrees is made to take input on degrees to turn. It moves the motors in opposite directions depending on if
-        the input is positive or negative. The function will beep when it has finished.
+        turn_degrees is made to take input on degrees to turn. It moves the motors in opposite directions depending on
+        if the input is positive or negative. The function will beep when it has finished.
         """
         degrees_per_turning_degree = 4
         degrees_per_wheel = degrees_to_turn * degrees_per_turning_degree
@@ -163,4 +164,3 @@ class Snatch3r(object):
         print("Abandon ship!")
         self.stop()
         return False
-
