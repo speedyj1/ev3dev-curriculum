@@ -42,7 +42,7 @@ def main():
 
     restart_button = ttk.Button(my_frame, text='Restart')
     restart_button.grid(row=3, column=0)
-    restart_button['command'] = lambda: restart_game(strokes)
+    restart_button['command'] = lambda: restart_game(mqtt_client)
 
     quit_button = ttk.Button(my_frame, text='Quit')
     quit_button.grid(row=3, column=1)
@@ -51,8 +51,8 @@ def main():
     root.mainloop()
 
 
-def restart_game(strokes):
-    strokes = 0
+def restart_game(mqtt_client):
+    mqtt_client.strokes = 0
     print('Please return to the start')
 
 
