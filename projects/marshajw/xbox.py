@@ -8,12 +8,11 @@ def main():
     pygame.display.set_caption("Joystick Testing / XBOX360 Controller")
 
     background = pygame.Surface(screen.get_size())
-    background = background.convert()
     background.fill((255, 255, 255))
 
     joysticks = []
     clock = pygame.time.Clock()
-    keepPlaying = True
+    keep_playing = True
 
     # for al the connected joysticks
     for i in range(0, pygame.joystick.get_count()):
@@ -23,21 +22,21 @@ def main():
         joysticks[-1].init()
         # print a statement telling what the name of the controller is
         print("Detected joystick '", joysticks[-1].get_name(), "'")
-    while keepPlaying:
+    while keep_playing:
         clock.tick(60)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 print("Received event 'Quit', exiting.")
-                keepPlaying = False
+                keep_playing = False
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 print("Escape key pressed, exiting.")
-                keepPlaying = False
+                keep_playing = False
             elif event.type == pygame.KEYDOWN:
                 print("Keydown,", event.key)
             elif event.type == pygame.KEYUP:
                 print("Keyup,", event.key)
-            # elif event.type == pygame.MOUSEMOTION:
-            #   print "Mouse movement detected."
+            elif event.type == pygame.MOUSEMOTION:
+                print("Mouse movement detected.")
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 print("Mouse button", event.button, "down at", pygame.mouse.get_pos())
             elif event.type == pygame.MOUSEBUTTONUP:
