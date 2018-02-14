@@ -75,17 +75,29 @@ def follow_the_line(robot, white_level, black_level):
       :type white_level: int
       :type black_level: int
     """
-    while robot.touch_sensor.is_pressed:
+    x = 0
+    while True:
+        if robot.color_sensor.reflected_light_intensity > white_level:
+            robot.drive(200, 200)
+        if robot.color_sensor.reflected_light_intensity < black_level:
+            robot.drive(200, -200)
+        time.sleep(0.1)
+        x += 1
+        if x > 300:
+            break
+
+    robot.stop()
+    ev3.Sound.speak("Done")
 
 
 
-    # TODO: 5. Use the calibrated values for white and black to calculate a light threshold to determine if your robot
+    # DONE: 5. Use the calibrated values for white and black to calculate a light threshold to determine if your robot
     # should drive straight or turn to the right.  You will need to test and refine your code until it works well.
     # Optional extra - For a harder challenge could you drive on the black line and handle left or right turns?
 
 
 
-# TODO: 6. Call over a TA or instructor to sign your team's checkoff sheet and do a code review.
+# DONE: 6. Call over a TA or instructor to sign your team's checkoff sheet and do a code review.
 #
 # Observations you should make, following a black line would be easier with 2 sensors (one on each side of the line),
 # but it can be done with only a single sensor.  There are also optimizations that could be made to follow the line
