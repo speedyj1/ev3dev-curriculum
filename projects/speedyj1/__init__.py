@@ -5,17 +5,16 @@ This is my CSSE120 final project.
 import tkinter
 from tkinter import ttk
 import mqtt_remote_method_calls as com
+from PIL import ImageTk, Image
 import ev3dev.ev3 as ev3
 import time
 import robot_controller as robo
 
-left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
-right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
-# assert left_motor.connected
-# assert right_motor.connected
+
 
 
 def main():
+
     mqtt_client = com.MqttClient()
     mqtt_client.connect_to_ev3()
 
@@ -25,68 +24,41 @@ def main():
     my_frame = ttk.Frame(root, padding=5)
     my_frame.grid()
 
+    # w_image = Image.open('C:\Users\speedyj1\Documents\water_hazard_for_csse120.svg')
+    # background_label = ttk.Label(my_frame, w_image)
+    # background_label.place(x=250, y=250, relwidth=1, relheight=2)
+
     objective = 'Make the ball/robot go to the hole/beacon'
     label = ttk.Label(my_frame, text=objective)
     label.grid(columnspan=2)
+
+    strokes = 0
+    score_counter = 'Strokes: ' + str(strokes)
+    scoreboard = ttk.Label(my_frame, text=score_counter)
+    scoreboard.grid(row=1, columnspan=2)
 
     canvas = tkinter.Canvas(my_frame, background='lightgray', width=500, height=600)
     canvas.grid(columnspan=2)
 
     restart_button = ttk.Button(my_frame, text='Restart')
     restart_button.grid(row=3, column=0)
+    restart_button['command'] = lambda: restart_game(mqtt_client)
 
     quit_button = ttk.Button(my_frame, text='Quit')
     quit_button.grid(row=3, column=1)
     quit_button['command'] = lambda: quit_game(mqtt_client)
 
-    robot = robo.Snatch3r()
-    dc = DataContainer()
-
-    rc1 = ev3.RemoteControl(channel=1)
-
-    while dc.running:
-        rc1.process()
-        rc2.process()
-        btn.process()
-        time.sleep(0.01)
-
-    rc1.on_red_up = lambda state: left_forward(state)
-    rc1.on_red_down = lambda state: left_backward(state)
-    rc1.on_blue_up = lambda state: right_forward(state)
-    rc1.on_blue_down = lambda state: right_backward(state)
-
     root.mainloop()
 
 
-def restart(canvas):
-    canvas.delete('all')
+def restart_game(mqtt_client):
+    mqtt_client.strokes = 0
+    print('Please return to the start')
+
 
 def quit_game(mqtt_client):
     if mqtt_client:
         mqtt_client.close()
     exit()
 
-def left_forward(button_state):
-    if button_state:
-        left_motor.run_forever(speed_sp=600)
-    else:
-        left_motor.stop(stop_action='brake')
-
-def right_forward(button_state):
-    if button_state:
-        right_motor.run_forever(speed_sp=600)
-    else:
-        right_motor.stop(stop_action='brake')
-
-def left_backward(button_state):
-    if button_state:
-        left_motor.run_forever(speed_sp=-600)
-    else:
-        left_motor.stop(stop_action='brake')
-
-def right_backward(button_state):
-    if button_state:
-        right_motor.run_forever(speed_sp=-600)
-    else:
-        right_motor.stop(stop_action='brake')
 main()
