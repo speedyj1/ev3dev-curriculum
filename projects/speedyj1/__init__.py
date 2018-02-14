@@ -37,12 +37,12 @@ def main():
     scoreboard = ttk.Label(my_frame, text=score_counter)
     scoreboard.grid(row=1, columnspan=2)
 
-
     canvas = tkinter.Canvas(my_frame, background='lightgray', width=500, height=600)
     canvas.grid(columnspan=2)
 
     restart_button = ttk.Button(my_frame, text='Restart')
     restart_button.grid(row=3, column=0)
+    restart_button['command'] = lambda: restart_game(strokes)
 
     quit_button = ttk.Button(my_frame, text='Quit')
     quit_button.grid(row=3, column=1)
@@ -51,8 +51,9 @@ def main():
     root.mainloop()
 
 
-def restart(canvas):
-    canvas.delete('all')
+def restart_game(strokes):
+    strokes = 0
+    print('Please return to the start')
 
 
 def quit_game(mqtt_client):

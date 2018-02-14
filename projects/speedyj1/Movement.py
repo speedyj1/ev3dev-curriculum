@@ -10,7 +10,8 @@ right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
 assert left_motor.connected
 assert right_motor.connected
 
-robot = robo.Snatch3r()
+def main():
+    robot = robo.Snatch3r()
     dc = DataContainer()
 
     rc1 = ev3.RemoteControl(channel=1)
@@ -60,3 +61,5 @@ def turn_right(button_state):
     else:
         left_motor.stop(stop_action='brake')
         right_motor.stop(stop_action='brake')
+
+main()
