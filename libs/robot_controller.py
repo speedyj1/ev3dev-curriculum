@@ -164,3 +164,23 @@ class Snatch3r(object):
         print("Abandon ship!")
         self.stop()
         return False
+
+    def search(self):
+
+        self.pixy.mode = "SIG1"
+        turn_speed = 200
+        while not self.touch_sensor.is_pressed:
+
+            print("(X, Y)=({}), {}) Width = {} Height={}".format(self.pixy.value(1), self.pixy.value(2),
+                                                                 self.pixy.value(3), self.pixy.value(4)))
+
+            if self.pixy.value(1) > 200:
+                self.drive(turn_speed, -turn_speed)
+            elif self.pixy.value(1) < 100:
+                self.drive(-turn_speed, turn_speed)
+            elif self.pixy.value(1) > 100 and self.pixy.value(1) < 200:
+                self.stop()
+            else:
+                self.stop()
+
+            time.sleep(0.25)
