@@ -11,8 +11,8 @@ import time
 import robot_controller as robo
 left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
 right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
-# assert left_motor.connected
-# assert right_motor.connected
+assert left_motor.connected
+assert right_motor.connected
 
 
 
