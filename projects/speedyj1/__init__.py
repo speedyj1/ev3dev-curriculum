@@ -11,8 +11,8 @@ import time
 import robot_controller as robo
 left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
 right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
-assert left_motor.connected
-assert right_motor.connected
+# assert left_motor.connected
+# assert right_motor.connected
 
 
 def main():
@@ -68,8 +68,8 @@ def main():
     left_button = ttk.Button(main_frame, text="Left")
     left_button.grid(row=3, column=0)
     # left_button and '<Left>' key
-    left_button['command'] = lambda: turn_left(mqtt_client2, 600)
-    root1.bind('<Left>', lambda event: turn_left(mqtt_client2, 600))
+    left_button['command'] = lambda: turn_left(mqtt_client2, -300, 300)
+    root1.bind('<Left>', lambda event: turn_left(mqtt_client2, -300, 300))
 
     stop_button = ttk.Button(main_frame, text="Stop")
     stop_button.grid(row=3, column=1)
@@ -80,8 +80,8 @@ def main():
     right_button = ttk.Button(main_frame, text="Right")
     right_button.grid(row=3, column=2)
     # right_button and '<Right>' key
-    right_button['command'] = lambda: turn_right(mqtt_client2, 600)
-    root1.bind('<Right>', lambda event: turn_right(mqtt_client2, 600))
+    right_button['command'] = lambda: turn_right(mqtt_client2, 300, -300)
+    root1.bind('<Right>', lambda event: turn_right(mqtt_client2, 300, -300))
 
     back_button = ttk.Button(main_frame, text="Back")
     back_button.grid(row=4, column=1)
@@ -118,16 +118,18 @@ def drive_backward(button_state, left_speed, right_speed):
         left_motor.stop(stop_action='brake')
         right_motor.stop(stop_action='brake')
 
-def turn_left(button_state, turn_speed):
+def turn_left(button_state, left_speed, right_speed):
     if button_state:
-        robo.Snatch3r.turn_degrees(45, turn_speed)
+        left_motor.run_forever(speed_sp=left_speed)
+        right_motor.run_forever(speed_sp=right_speed)
     else:
         left_motor.stop(stop_action='brake')
         right_motor.stop(stop_action='brake')
 
-def turn_right(button_state, turn_speed):
+def turn_right(button_state, left_speed, right_speed):
     if button_state:
-        robo.Snatch3r.turn_degrees(-45, turn_speed)
+        left_motor.run_forever(speed_sp=left_speed)
+        right_motor.run_forever(speed_sp=right_speed)
     else:
         left_motor.stop(stop_action='brake')
         right_motor.stop(stop_action='brake')
