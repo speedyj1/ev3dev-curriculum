@@ -15,7 +15,6 @@ assert left_motor.connected
 assert right_motor.connected
 
 
-
 def main():
 
     mqtt_client = com.MqttClient()
@@ -93,6 +92,7 @@ def main():
     root.mainloop()
     root1.mainloop()
 
+
 def restart_game(mqtt_client):
     mqtt_client.strokes = 0
     print('Please return to the start')
@@ -120,14 +120,14 @@ def drive_backward(button_state, left_speed, right_speed):
 
 def turn_left(button_state, turn_speed):
     if button_state:
-        robo.turn_degrees(45, turn_speed)
+        robo.Snatch3r.turn_degrees(45, turn_speed)
     else:
         left_motor.stop(stop_action='brake')
         right_motor.stop(stop_action='brake')
 
 def turn_right(button_state, turn_speed):
     if button_state:
-        robo.turn_degrees(-45, turn_speed)
+        robo.Snatch3r.turn_degrees(-45, turn_speed)
     else:
         left_motor.stop(stop_action='brake')
         right_motor.stop(stop_action='brake')
@@ -136,5 +136,6 @@ def make_stop(button_state):
     if button_state:
         left_motor.stop(stop_action='brake')
         right_motor.stop(stop_action='brake')
+
 
 main()
