@@ -50,42 +50,42 @@ def main():
     forward_button = ttk.Button(main_frame, text="Forward")
     forward_button.grid(row=2, column=1)
     # forward_button and '<Up>' key is done for your here...
-    forward_button['command'] = lambda: drive_forward(mqtt_client2, 600, 600)
-    root1.bind('<Up>', lambda event: drive_forward(mqtt_client2, 600, 600))
+    forward_button['command'] = lambda: send_forward(mqtt_client2, 600, 600)
+    root1.bind('<Up>', lambda event: send_forward(mqtt_client2, 600, 600))
 
     left_button = ttk.Button(main_frame, text="Left")
     left_button.grid(row=3, column=0)
     # left_button and '<Left>' key
-    left_button['command'] = lambda: turn_left(mqtt_client2, -300, 300)
-    root1.bind('<Left>', lambda event: turn_left(mqtt_client2, -300, 300))
+    left_button['command'] = lambda: send_left(mqtt_client2, -300, 300)
+    root1.bind('<Left>', lambda event: send_left(mqtt_client2, -300, 300))
 
     stop_button = ttk.Button(main_frame, text="Stop")
     stop_button.grid(row=3, column=1)
     # stop_button and '<space>' key (note, does not need left_speed_entry, right_speed_entry)
-    stop_button['command'] = lambda: make_stop(mqtt_client2)
-    root1.bind('<space>', lambda event: make_stop(mqtt_client2))
+    stop_button['command'] = lambda: send_stop(mqtt_client2)
+    root1.bind('<space>', lambda event: send_stop(mqtt_client2))
 
     right_button = ttk.Button(main_frame, text="Right")
     right_button.grid(row=3, column=2)
     # right_button and '<Right>' key
-    right_button['command'] = lambda: turn_right(mqtt_client2, 300, -300)
-    root1.bind('<Right>', lambda event: turn_right(mqtt_client2, 300, -300))
+    right_button['command'] = lambda: send_right(mqtt_client2, 300, -300)
+    root1.bind('<Right>', lambda event: send_right(mqtt_client2, 300, -300))
 
     back_button = ttk.Button(main_frame, text="Back")
     back_button.grid(row=4, column=1)
     # back_button and '<Down>' key
-    back_button['command'] = lambda: drive_backward(mqtt_client2, -600, -600)
-    root1.bind('<Down>', lambda event: drive_backward(mqtt_client2, -600, -600))
+    back_button['command'] = lambda: send_back(mqtt_client2, -600, -600)
+    root1.bind('<Down>', lambda event: send_back(mqtt_client2, -600, -600))
 
     root.mainloop()
     root1.mainloop()
 
-    game = True
-    while game == True:
-        if ev3.ColorSensor.color == ev3.ColorSensor.COLOR_BLUE:
-            make_stop()
-            ev3.Sound.speak("You are in the water. You lose.")
-            game = False
+    # game = True
+    # while game == True:
+    #     if ev3.ColorSensor.color == ev3.ColorSensor.COLOR_BLUE:
+    #         make_stop()
+    #         ev3.Sound.speak("You are in the water. You lose.")
+    #         game = False
 
 # def restart_game(mqtt_client, x):
 #     if mqtt_client:
@@ -98,42 +98,29 @@ def quit_game(mqtt_client):
         mqtt_client.close()
     exit()
 
-def drive_forward(button_state, left_speed, right_speed):
-    if button_state:
-        robot.left_motor.run_forever(speed_sp=left_speed)
-        robot.right_motor.run_forever(speed_sp=right_speed)
-    else:
-        robot.left_motor.stop(stop_action='brake')
-        robot.right_motor.run_forever(stop_action='brake')
+def send_forward(mqtt_client, left_speed, right_speed):
+    print("forward")
+    mqtt_client.send_message("drive",[int(left_speed),
+                                      int(right_speed)])
 
-def drive_backward(button_state, left_speed, right_speed):
-    if button_state:
-        robot.left_motor.run_forever(speed_sp=left_speed)
-        robot.right_motor.run_forever(speed_sp=right_speed)
-    else:
-        robot.left_motor.stop(stop_action='brake')
-        robot.right_motor.stop(stop_action='brake')
+def send_left(mqtt_client, left_speed, right_speed):
+    print("left")
+    mqtt_client.send_message("drive",[int(left_speed),
+                                      int(right_speed)])
 
-def turn_left(button_state, left_speed, right_speed):
-    if button_state:
-        robot.left_motor.run_forever(speed_sp=left_speed)
-        robot.right_motor.run_forever(speed_sp=right_speed)
-    else:
-        robot.left_motor.stop(stop_action='brake')
-        robot.right_motor.stop(stop_action='brake')
+def send_right(mqtt_client, left_speed, right_speed):
+    print("right")
+    mqtt_client.send_message("drive",[int(left_speed),
+                                      int(right_speed)])
 
-def turn_right(button_state, left_speed, right_speed):
-    if button_state:
-        robot.left_motor.run_forever(speed_sp=left_speed)
-        robot.right_motor.run_forever(speed_sp=right_speed)
-    else:
-        robot.left_motor.stop(stop_action='brake')
-        robot.right_motor.stop(stop_action='brake')
+def send_back(mqtt_client,left_speed,right_speed):
+    print("backward")
+    mqtt_client.send_message("backward",[int(left_speed),
+                                         int(right_speed)])
 
-def make_stop(button_state):
-    if button_state:
-        robot.left_motor.stop(stop_action='brake')
-        robot.right_motor.stop(stop_action='brake')
+def send_stop(mqtt_client):
+    print("stop")
+    mqtt_client.send_message("stop")
 
 
 main()
