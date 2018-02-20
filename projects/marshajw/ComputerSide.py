@@ -1,8 +1,6 @@
 import tkinter
 from tkinter import ttk
 import mqtt_remote_method_calls as com
-# import robot_controller as robo
-# robo.Snatch3r = robot
 
 
 class MyDelegate(object):
@@ -28,8 +26,9 @@ def main():
     button_1.grid(row=0, column=0)
     button_1['command'] = lambda: drive(mqtt_client)
 
-    button_2 = ttk.Button(main_frame, text='Manual Color Drive')
+    button_2 = ttk.Button(main_frame, text='Pick up Item')
     button_2.grid(row=1, column=0)
+    button_2['command'] = lambda: pick_up(mqtt_client)
 
     button_3 = ttk.Button(main_frame, text='Button 3')
     button_3.grid(row=2, column=0)
@@ -49,6 +48,10 @@ def main():
     root.mainloop()
 
 
+def pick_up(mqtt_client):
+    mqtt_client.send_message("pick_up")
+
+
 def drive(mqtt_client):
     root = tkinter.Tk()
     root.title("Manual Drive")
@@ -58,14 +61,14 @@ def drive(mqtt_client):
     left_speed_label = ttk.Label(main_drive, text="Left")
     left_speed_label.grid(row=0, column=0)
     left_speed_entry = ttk.Scale(main_drive, from_=0, to=900)
-    left_speed_entry.set(600)
+    left_speed_entry.set(300)
     left_speed_entry.grid(row=1, column=0)
 
     right_speed_label = ttk.Label(main_drive, text="Right")
     right_speed_label.grid(row=0, column=2)
     right_speed_entry = ttk.Scale(main_drive, from_=0, to=900)
     right_speed_entry.grid(row=1, column=2)
-    right_speed_entry.set(600)
+    right_speed_entry.set(300)
 
     forward_button = ttk.Button(main_drive, text="Forward")
     forward_button.grid(row=2, column=1)
