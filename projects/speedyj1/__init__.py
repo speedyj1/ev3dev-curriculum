@@ -92,12 +92,6 @@ def main():
     root.mainloop()
     root1.mainloop()
 
-    game = True
-    while game == True:
-        if ev3.ColorSensor.color == ev3.ColorSensor.COLOR_BLUE:
-            send_stop(mqtt_client2)
-            ev3.Sound.speak("You are in the water. You lose.")
-            game = False
 
 # def restart_game(mqtt_client, x):
 #     if mqtt_client:
