@@ -56,17 +56,12 @@ class Snatch3r(object):
                 self.stop()
                 print("Goodbye!")
                 ev3.Sound.speak("Rest in piece").wait()
-                break
-            elif self.color_sensor.color == ev3.ColorSensor.COLOR_BLACK:
-                self.stop()
-                print("Goodbye!")
-                ev3.Sound.speak("Rest in piece").wait()
-                break
-            elif self.ir_sensor.proximity < 15:
-                self.stop()
-                print("Halt!")
-                ev3.Sound.speak("Halt").wait()
                 time.sleep(3)
+            elif self.color_sensor.color == ev3.ColorSensor.COLOR_GREEN:
+                self.arm_down()
+                print("YOU WIN!")
+                ev3.Sound.speak("Delivered the package. You Won!").wait()
+                break
             time.sleep(0.1)
 
     def drive(self, left_speed_entry, right_speed_entry):
@@ -224,6 +219,6 @@ class Snatch3r(object):
                 return False
 
     def pick_up(self):
-        self.arm_motor.run_to_abs_pos(position_sp=1400, speed_sp=400, stop_action=ev3.Motor.STOP_ACTION_HOLD)
+        self.arm_motor.run_to_abs_pos(position_sp=2500, speed_sp=400, stop_action=ev3.Motor.STOP_ACTION_HOLD)
         self.arm_motor.wait_while(ev3.Motor.STATE_RUNNING)
         ev3.Sound.speak("I have the package").wait()
