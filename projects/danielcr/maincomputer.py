@@ -155,7 +155,7 @@ def window4link():
     main_frame = ttk.Frame(root, padding=5)
     main_frame.grid()
 
-    speed = ttk.Label(main_frame, text="Right")
+    speed = ttk.Label(main_frame, text="Speed")
     speed.grid(row=0, column=2)
     speed = ttk.Entry(main_frame, width=8, justify=tkinter.RIGHT)
     speed.insert(0, "600")
@@ -172,6 +172,11 @@ def window4link():
     draw_circle_button = ttk.Button(main_frame, text='Circle')
     draw_circle_button.grid(row=1, column=0)
     draw_circle_button['command'] = lambda: draw_circle(mqtt_client, speed)
+
+    draw_triangle_button = ttk.Button(main_frame, text='Triangle')
+    draw_triangle_button.grid(row=4, column=0)
+    draw_triangle_button['command'] = lambda: draw_triangle(mqtt_client, speed)
+
 
     root.mainloop()
 
