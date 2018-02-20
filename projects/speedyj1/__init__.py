@@ -5,12 +5,8 @@ This is my CSSE120 final project.
 import tkinter
 from tkinter import ttk
 import mqtt_remote_method_calls as com
-from PIL import ImageTk, Image
 import ev3dev.ev3 as ev3
 import robot_controller as robo
-import time
-left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
-right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
 robot = robo.Snatch3r
 
 
@@ -25,10 +21,6 @@ def main():
     my_frame = ttk.Frame(root, padding=5)
     my_frame.grid()
 
-    # w_image = Image.open('C:\Users\speedyj1\Documents\water_hazard_for_csse120.svg')
-    # background_label = ttk.Label(my_frame, w_image)
-    # background_label.place(x=250, y=250, relwidth=1, relheight=2)
-
     objective = 'Make the ball/robot go to the hole/beacon'
     label = ttk.Label(my_frame, text=objective)
     label.grid(columnspan=2)
@@ -37,9 +29,6 @@ def main():
     score_counter = 'Strokes: ' + str(strokes)
     scoreboard = ttk.Label(my_frame, text=score_counter)
     scoreboard.grid(row=1, columnspan=2)
-
-    canvas = tkinter.Canvas(my_frame, background='lightgray', width=500, height=600)
-    canvas.grid(columnspan=2)
 
     restart_button = ttk.Button(my_frame, text='Restart')
     restart_button.grid(row=3, column=0)
@@ -98,10 +87,10 @@ def main():
             ev3.Sound.speak("You are in the water. You lose.")
             game = False
 
-def restart_game(mqtt_client, x):
-    if mqtt_client:
-        x = 0
-    print('Please return to the start')
+# def restart_game(mqtt_client, x):
+#     if mqtt_client:
+#         x = 0
+#     print('Please return to the start')
 
 
 def quit_game(mqtt_client):
@@ -111,40 +100,40 @@ def quit_game(mqtt_client):
 
 def drive_forward(button_state, left_speed, right_speed):
     if button_state:
-        left_motor.run_forever(speed_sp=left_speed)
-        right_motor.run_forever(speed_sp=right_speed)
+        robot.left_motor.run_forever(speed_sp=left_speed)
+        robot.right_motor.run_forever(speed_sp=right_speed)
     else:
-        left_motor.stop(stop_action='brake')
-        right_motor.run_forever(stop_action='brake')
+        robot.left_motor.stop(stop_action='brake')
+        robot.right_motor.run_forever(stop_action='brake')
 
 def drive_backward(button_state, left_speed, right_speed):
     if button_state:
-        left_motor.run_forever(speed_sp=left_speed)
-        right_motor.run_forever(speed_sp=right_speed)
+        robot.left_motor.run_forever(speed_sp=left_speed)
+        robot.right_motor.run_forever(speed_sp=right_speed)
     else:
-        left_motor.stop(stop_action='brake')
-        right_motor.stop(stop_action='brake')
+        robot.left_motor.stop(stop_action='brake')
+        robot.right_motor.stop(stop_action='brake')
 
 def turn_left(button_state, left_speed, right_speed):
     if button_state:
-        left_motor.run_forever(speed_sp=left_speed)
-        right_motor.run_forever(speed_sp=right_speed)
+        robot.left_motor.run_forever(speed_sp=left_speed)
+        robot.right_motor.run_forever(speed_sp=right_speed)
     else:
-        left_motor.stop(stop_action='brake')
-        right_motor.stop(stop_action='brake')
+        robot.left_motor.stop(stop_action='brake')
+        robot.right_motor.stop(stop_action='brake')
 
 def turn_right(button_state, left_speed, right_speed):
     if button_state:
-        left_motor.run_forever(speed_sp=left_speed)
-        right_motor.run_forever(speed_sp=right_speed)
+        robot.left_motor.run_forever(speed_sp=left_speed)
+        robot.right_motor.run_forever(speed_sp=right_speed)
     else:
-        left_motor.stop(stop_action='brake')
-        right_motor.stop(stop_action='brake')
+        robot.left_motor.stop(stop_action='brake')
+        robot.right_motor.stop(stop_action='brake')
 
 def make_stop(button_state):
     if button_state:
-        left_motor.stop(stop_action='brake')
-        right_motor.stop(stop_action='brake')
+        robot.left_motor.stop(stop_action='brake')
+        robot.right_motor.stop(stop_action='brake')
 
 
 main()
