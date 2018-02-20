@@ -82,6 +82,8 @@ while done == False:
     for i in range(joystick_count):
         joystick = pygame.joystick.Joystick(i)
         joystick.init()
+        x = joystick.get_axis(1)
+        print(x)
 
         textPrint.print(screen, "Joystick {}".format(i))
         textPrint.indent()
@@ -130,6 +132,7 @@ while done == False:
 
     # Limit to 20 frames per second
     clock.tick(20)
+
 
 # Close the window and quit.
 # If you forget this line, the program will 'hang'
