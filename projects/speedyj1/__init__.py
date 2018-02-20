@@ -11,7 +11,6 @@ robot = robo.Snatch3r
 
 
 def main():
-
     mqtt_client = com.MqttClient()
     mqtt_client.connect_to_ev3()
 
@@ -92,15 +91,10 @@ def main():
     root.mainloop()
     root1.mainloop()
 
-    # if button_state:
-    #     while True:
-    #         if robot.color_sensor.color == ev3.ColorSensor.COLOR_BLUE:
-    #             ev3.Sound.speak("You are in the water. You lose.")
-
-# def restart_game(mqtt_client, x):
-#     if mqtt_client:
-#         x = 0
-#     print('Please return to the start')
+def restart_game(mqtt_client, x):
+    if mqtt_client:
+        x = 0
+    print('Please return to the start')
 
 
 def quit_game(mqtt_client):
