@@ -91,6 +91,7 @@ def main():
     root.mainloop()
     root1.mainloop()
 
+
 def restart_game(mqtt_client, x):
     if mqtt_client:
         x = 0
@@ -102,25 +103,30 @@ def quit_game(mqtt_client):
         mqtt_client.close()
     exit()
 
+
 def send_forward(mqtt_client, left_speed_entry, right_speed_entry):
     print("forward")
     mqtt_client.send_message("drive",[int(left_speed_entry.get()),
                                       int(right_speed_entry.get())])
+
 
 def send_left(mqtt_client, left_speed_entry, right_speed_entry):
     print("left")
     mqtt_client.send_message("drive",[-int(left_speed_entry.get()),
                                       int(right_speed_entry.get())])
 
+
 def send_right(mqtt_client, left_speed_entry, right_speed_entry):
     print("right")
     mqtt_client.send_message("drive",[int(left_speed_entry.get()),
                                       -int(right_speed_entry.get())])
 
+
 def send_back(mqtt_client, left_speed_entry, right_speed_entry):
     print("backward")
     mqtt_client.send_message("backward",[int(left_speed_entry.get()),
                                          int(right_speed_entry.get())])
+
 
 def send_stop(mqtt_client):
     print("stop")
