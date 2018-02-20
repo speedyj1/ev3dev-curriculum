@@ -7,9 +7,10 @@ from tkinter import ttk
 import mqtt_remote_method_calls as com
 from PIL import ImageTk, Image
 import ev3dev.ev3 as ev3
+import robot_controller as robo
 left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
 right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
-
+robot = robo.Snatch3r
 
 
 def main():
@@ -89,6 +90,10 @@ def main():
     root.mainloop()
     root1.mainloop()
 
+
+    if robot.color_sensor.color == ev3.ColorSensor.COLOR_BLUE:
+        robot.stop()
+        ev3.Sound.speak("You are in the water. You lose."
 
 def restart_game(mqtt_client, x):
     if mqtt_client:
