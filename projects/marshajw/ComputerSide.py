@@ -1,7 +1,7 @@
 import tkinter
 from tkinter import ttk
 import mqtt_remote_method_calls as com
-import robot_controller as robo
+# import robot_controller as robo
 
 
 def main():
@@ -9,9 +9,9 @@ def main():
     mqtt_client.connect_to_ev3()
 
     root = tkinter.Tk()
-    root.title("MQTT Remote")
+    root.title("Main TKinter Window")
 
-    main = ttk.Frame(root, padding=20, relief='raised')
+    main = ttk.Frame(root, padding=50, relief='raised')
     main.grid()
 
     button_1 = ttk.Button(main, text='Manual Drive')
@@ -44,7 +44,7 @@ def drive(mqtt_client):
     root = tkinter.Tk()
     root.title("Manual Drive")
 
-    main_drive = ttk.Frame(root, padding=20, relief='raised')
+    main_drive = ttk.Frame(root, padding=42, relief='raised')
     main_drive.grid()
     left_speed_label = ttk.Label(main_drive, text="Left")
     left_speed_label.grid(row=0, column=0)
@@ -100,7 +100,7 @@ def drive_color(mqtt_client):
     root = tkinter.Tk()
     root.title("Manual Color Drive")
 
-    color = ttk.Frame(root, padding=20, relief='raised')
+    color = ttk.Frame(root, padding=36, relief='raised')
     color.grid()
     left_speed_label = ttk.Label(color, text="Left")
     left_speed_label.grid(row=0, column=0)
@@ -139,8 +139,6 @@ def drive_color(mqtt_client):
     back_button['command'] = lambda: send_back(mqtt_client, left_speed_entry, right_speed_entry)
     root.bind('<Down>', lambda event: send_back(mqtt_client, left_speed_entry, right_speed_entry))
 
-    robot = robo.Snatch3r()
-
     root.mainloop()
 
 
@@ -166,7 +164,7 @@ def send_left(mqtt_client, left_speed_entry, right_speed_entry):
 
 def send_right(mqtt_client, left_speed_entry, right_speed_entry):
     print("right")
-    mqtt_client.send_message("drive", [int(left_speed_entry.get()), int(right_speed_entry.get())])
+    mqtt_client.send_message("drive", [int(left_speed_entry.get()), -int(right_speed_entry.get())])
 
 
 def send_back(mqtt_client, left_speed_entry, right_speed_entry):

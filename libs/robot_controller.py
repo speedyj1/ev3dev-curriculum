@@ -184,3 +184,15 @@ class Snatch3r(object):
                 self.stop()
 
             time.sleep(0.25)
+
+    def seeking_color(self, color_to_seek):
+        while True:
+            self.drive(300, 300)
+            time.sleep(0.1)
+            print(int(color_to_seek))
+            print(self.color_sensor.color)
+            if self.color_sensor.color == int(color_to_seek):
+                self.stop()
+                print("color test")
+                return False
+
