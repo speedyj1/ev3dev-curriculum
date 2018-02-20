@@ -49,6 +49,25 @@ class Snatch3r(object):
                 ev3.Sound.speak('You went in the water. You lose.')
             time.sleep(0.1)
 
+    def loop_forever6(self):
+        self.running = True
+        while self.running:
+            print(self.color_sensor.color)
+            if self.color_sensor.color == ev3.ColorSensor.COLOR_WHITE:
+                self.stop()
+                print("Goodbye!")
+                ev3.Sound.speak("Rest in piece").wait()
+            elif self.color_sensor.color == ev3.ColorSensor.COLOR_BLUE:
+                self.stop()
+                print("Goodbye!")
+                ev3.Sound.speak("Rest in piece").wait()
+            elif self.ir_sensor.proximity < 15:
+                self.stop()
+                print("Halt!")
+                ev3.Sound.speak("Halt").wait()
+                time.sleep(3)
+            time.sleep(0.1)
+
     def drive(self, left_speed_entry, right_speed_entry):
         self.left_motor.run_forever(speed_sp=left_speed_entry)
         self.right_motor.run_forever(speed_sp=right_speed_entry)
@@ -202,4 +221,3 @@ class Snatch3r(object):
                 self.stop()
                 print("color test")
                 return False
-

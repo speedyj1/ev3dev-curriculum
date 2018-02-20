@@ -2,6 +2,16 @@ import tkinter
 from tkinter import ttk
 import mqtt_remote_method_calls as com
 # import robot_controller as robo
+# robo.Snatch3r = robot
+
+
+class MyDelegate(object):
+
+    def __init__(self, color):
+        self.color = color
+
+    def color_change(self, lego_color):
+        self.color = lego_color
 
 
 def main():
@@ -9,31 +19,30 @@ def main():
     mqtt_client.connect_to_ev3()
 
     root = tkinter.Tk()
-    root.title("Main TKinter Window")
+    root.title("main TKinter Window")
 
-    main = ttk.Frame(root, padding=50, relief='raised')
-    main.grid()
+    main_frame = ttk.Frame(root, padding=50, relief='raised')
+    main_frame.grid()
 
-    button_1 = ttk.Button(main, text='Manual Drive')
+    button_1 = ttk.Button(main_frame, text='Manual Drive')
     button_1.grid(row=0, column=0)
     button_1['command'] = lambda: drive(mqtt_client)
 
-    button_2 = ttk.Button(main, text='Manual Color Drive')
+    button_2 = ttk.Button(main_frame, text='Manual Color Drive')
     button_2.grid(row=1, column=0)
-    button_2['command'] = lambda: drive_color(mqtt_client)
 
-    button_3 = ttk.Button(main, text='Button 3')
+    button_3 = ttk.Button(main_frame, text='Button 3')
     button_3.grid(row=2, column=0)
 
-    button_4 = ttk.Button(main, text='Button 4')
+    button_4 = ttk.Button(main_frame, text='Button 4')
     button_4.grid(row=3, column=0)
 
     # Buttons for quit and exit
-    q_button = ttk.Button(main, text="Quit")
+    q_button = ttk.Button(main_frame, text="Quit")
     q_button.grid(row=1, column=2)
     q_button['command'] = (lambda: quit_program(mqtt_client, False))
 
-    e_button = ttk.Button(main, text="Exit")
+    e_button = ttk.Button(main_frame, text="Exit")
     e_button.grid(row=2, column=2)
     e_button['command'] = (lambda: quit_program(mqtt_client, True))
 
@@ -92,52 +101,6 @@ def drive(mqtt_client):
     down_button.grid(row=6, column=0)
     down_button['command'] = lambda: send_down(mqtt_client)
     root.bind('<j>', lambda event: send_down(mqtt_client))
-
-    root.mainloop()
-
-
-def drive_color(mqtt_client):
-    root = tkinter.Tk()
-    root.title("Manual Color Drive")
-
-    color = ttk.Frame(root, padding=36, relief='raised')
-    color.grid()
-    left_speed_label = ttk.Label(color, text="Left")
-    left_speed_label.grid(row=0, column=0)
-    left_speed_entry = ttk.Entry(color, width=8)
-    left_speed_entry.insert(0, "600")
-    left_speed_entry.grid(row=1, column=0)
-
-    right_speed_label = ttk.Label(color, text="Right")
-    right_speed_label.grid(row=0, column=2)
-    right_speed_entry = ttk.Entry(color, width=8, justify=tkinter.RIGHT)
-    right_speed_entry.insert(0, "600")
-    right_speed_entry.grid(row=1, column=2)
-
-    forward_button = ttk.Button(color, text="Forward")
-    forward_button.grid(row=2, column=1)
-    forward_button['command'] = lambda: send_forward(mqtt_client, left_speed_entry, right_speed_entry)
-    root.bind('<Up>', lambda event: send_forward(mqtt_client, left_speed_entry, right_speed_entry))
-
-    left_button = ttk.Button(color, text="Left")
-    left_button.grid(row=3, column=0)
-    left_button['command'] = lambda: send_left(mqtt_client, left_speed_entry, right_speed_entry)
-    root.bind('<Left>', lambda event: send_left(mqtt_client, left_speed_entry, right_speed_entry))
-
-    stop_button = ttk.Button(color, text="Stop")
-    stop_button.grid(row=3, column=1)
-    stop_button['command'] = lambda: send_stop(mqtt_client)
-    root.bind('<space>', lambda event: send_stop(mqtt_client))
-
-    right_button = ttk.Button(color, text="Right")
-    right_button.grid(row=3, column=2)
-    right_button['command'] = lambda: send_right(mqtt_client, left_speed_entry, right_speed_entry)
-    root.bind('<Right>', lambda event: send_right(mqtt_client, left_speed_entry, right_speed_entry))
-
-    back_button = ttk.Button(color, text="Back")
-    back_button.grid(row=4, column=1)
-    back_button['command'] = lambda: send_back(mqtt_client, left_speed_entry, right_speed_entry)
-    root.bind('<Down>', lambda event: send_back(mqtt_client, left_speed_entry, right_speed_entry))
 
     root.mainloop()
 
