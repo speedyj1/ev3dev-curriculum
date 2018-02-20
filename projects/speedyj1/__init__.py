@@ -7,12 +7,9 @@ from tkinter import ttk
 import mqtt_remote_method_calls as com
 from PIL import ImageTk, Image
 import ev3dev.ev3 as ev3
-import time
-import robot_controller as robo
 left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
 right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
-# assert left_motor.connected
-# assert right_motor.connected
+
 
 
 def main():
@@ -44,7 +41,7 @@ def main():
 
     restart_button = ttk.Button(my_frame, text='Restart')
     restart_button.grid(row=3, column=0)
-    restart_button['command'] = lambda: restart_game(mqtt_client)
+    restart_button['command'] = lambda: restart_game(mqtt_client, strokes)
 
     quit_button = ttk.Button(my_frame, text='Quit')
     quit_button.grid(row=3, column=1)
@@ -62,39 +59,40 @@ def main():
     forward_button = ttk.Button(main_frame, text="Forward")
     forward_button.grid(row=2, column=1)
     # forward_button and '<Up>' key is done for your here...
-    forward_button['command'] = lambda: drive_forward(mqtt_client2, 600, 600)
-    root1.bind('<Up>', lambda event: drive_forward(mqtt_client2, 600, 600))
+    forward_button['command'] = lambda: drive_forward(mqtt_client, 600, 600)
+    root1.bind('<Up>', lambda event: drive_forward(mqtt_client, 600, 600))
 
     left_button = ttk.Button(main_frame, text="Left")
     left_button.grid(row=3, column=0)
     # left_button and '<Left>' key
-    left_button['command'] = lambda: turn_left(mqtt_client2, -300, 300)
-    root1.bind('<Left>', lambda event: turn_left(mqtt_client2, -300, 300))
+    left_button['command'] = lambda: turn_left(mqtt_client, -300, 300)
+    root1.bind('<Left>', lambda event: turn_left(mqtt_client, -300, 300))
 
     stop_button = ttk.Button(main_frame, text="Stop")
     stop_button.grid(row=3, column=1)
     # stop_button and '<space>' key (note, does not need left_speed_entry, right_speed_entry)
-    stop_button['command'] = lambda: make_stop(mqtt_client2)
-    root1.bind('<space>', lambda event: make_stop(mqtt_client2))
+    stop_button['command'] = lambda: make_stop(mqtt_client)
+    root1.bind('<space>', lambda event: make_stop(mqtt_client))
 
     right_button = ttk.Button(main_frame, text="Right")
     right_button.grid(row=3, column=2)
     # right_button and '<Right>' key
-    right_button['command'] = lambda: turn_right(mqtt_client2, 300, -300)
-    root1.bind('<Right>', lambda event: turn_right(mqtt_client2, 300, -300))
+    right_button['command'] = lambda: turn_right(mqtt_client, 300, -300)
+    root1.bind('<Right>', lambda event: turn_right(mqtt_client, 300, -300))
 
     back_button = ttk.Button(main_frame, text="Back")
     back_button.grid(row=4, column=1)
     # back_button and '<Down>' key
-    back_button['command'] = lambda: drive_backward(mqtt_client2, -600, -600)
-    root1.bind('<Down>', lambda event: drive_backward(mqtt_client2, -600, -600))
+    back_button['command'] = lambda: drive_backward(mqtt_client, -600, -600)
+    root1.bind('<Down>', lambda event: drive_backward(mqtt_client, -600, -600))
 
     root.mainloop()
     root1.mainloop()
 
 
-def restart_game(mqtt_client):
-    mqtt_client.strokes = 0
+def restart_game(mqtt_client, x):
+    if mqtt_client:
+        x = 0
     print('Please return to the start')
 
 
