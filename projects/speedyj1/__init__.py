@@ -8,7 +8,8 @@ import mqtt_remote_method_calls as com
 from PIL import ImageTk, Image
 import ev3dev.ev3 as ev3
 import robot_controller as robo
-left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
+import time
+left_motor = ev3.LargeMotor(ev3.OUTPUT_D)
 right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
 robot = robo.Snatch3r
 
