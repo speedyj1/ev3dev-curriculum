@@ -2,18 +2,17 @@
 This is the tkinter side of the code.
 """
 
-
 import tkinter
 from tkinter import ttk
-
+import time
 
 import mqtt_remote_method_calls as com
 
 mqtt_client = com.MqttClient()
 mqtt_client.connect_to_ev3()
 
-class MyDelegate(object):
 
+class MyDelegate(object):
     def __init__(self, canvas, rectangle_tag):
         self.canvas = canvas
         self.rectangle_tag = rectangle_tag
@@ -23,9 +22,7 @@ class MyDelegate(object):
 
 
 def main():
-
     window1link()
-
 
 
 def window1link():
@@ -38,21 +35,22 @@ def window1link():
     button_1.grid(row=0, column=0)
     button_1['command'] = lambda: window2link()
 
-    button_2 = ttk.Button(window1, text='Button 2')
+    button_2 = ttk.Button(window1, text='Pixy Graph')
     button_2.grid(row=1, column=0)
     button_2['command'] = lambda: window3link()
 
-    button_3 = ttk.Button(window1, text='Button 3')
+    button_3 = ttk.Button(window1, text='Draw Shapes')
     button_3.grid(row=2, column=0)
+    button_3['command'] = lambda: window4link()
 
-    button_4 = ttk.Button(window1, text='Button 4')
+    button_4 = ttk.Button(window1, text='Check Color')
     button_4.grid(row=3, column=0)
+    button_4['command'] = lambda: window5link()
 
     root.mainloop()
 
 
 def window2link():
-
     root = tkinter.Tk()
     root.title("MQTT Remote")
 
@@ -136,27 +134,49 @@ def window3link():
 
     rect_tag = canvas.create_rectangle(150, 90, 170, 110, fill="blue")
 
-    # # Buttons for quit and exit
-    # quit_button = ttk.Button(main_frame, text="Quit")
-    # quit_button.grid(row=3, column=1)
-    # quit_button["command"] = lambda: quit_program(mqtt_client)
-
-    search_button = ttk.Button(main_frame, text='search')
-    search_button.grid(row=3, column=1)
-    search_button['command'] = lambda: search_color(mqtt_client)
-
     # Create an MQTT connection
     my_delegate = MyDelegate(canvas, rect_tag)
     mqtt_client = com.MqttClient(my_delegate)
     mqtt_client.connect_to_ev3()
     # mqtt_client.connect_to_ev3("35.194.247.175")  # Off campus IP address of a GCP broker
 
+    # Buttons for quit and exit
+    quit_button = ttk.Button(main_frame, text="Quit")
+    quit_button.grid(row=4, column=1)
+    quit_button["command"] = lambda: quit_program(mqtt_client, shutdown_ev3=True)
+
     root.mainloop()
 
 
+def window4link():
+    root = tkinter.Tk()
+    root.title = "Draw Shapes"
 
+    main_frame = ttk.Frame(root, padding=5)
+    main_frame.grid()
 
+    speed = ttk.Label(main_frame, text="Right")
+    speed.grid(row=0, column=2)
+    speed = ttk.Entry(main_frame, width=8, justify=tkinter.RIGHT)
+    speed.insert(0, "600")
+    speed.grid(row=1, column=2)
 
+    stop_button = ttk.Button(main_frame, text="Stop")
+    stop_button.grid(row=0, column=0)
+    stop_button['command'] = lambda: send_stop(mqtt_client)
+
+    draw_square_button = ttk.Button(main_frame, text='Square')
+    draw_square_button.grid(row=3, column=0)
+    draw_square_button['command'] = lambda: draw_square(mqtt_client, speed)
+
+    draw_circle_button = ttk.Button(main_frame, text='Circle')
+    draw_circle_button.grid(row=1, column=0)
+    draw_circle_button['command'] = lambda: draw_circle(mqtt_client, speed)
+
+    root.mainloop()
+
+def window5link():
+    check_color(mqtt_client)
 
 
 def send_up(mqtt_client):
@@ -168,37 +188,75 @@ def send_down(mqtt_client):
     print("arm_down")
     mqtt_client.send_message("arm_down")
 
+
 def send_forward(mqtt_client, left_speed_entry, right_speed_entry):
     print("forward")
     mqtt_client.send_message("drive", [int(left_speed_entry.get()), int(right_speed_entry.get())])
 
+
 def send_left(mqtt_client, left_speed_entry, right_speed_entry):
     print("left")
-    mqtt_client.send_message("drive",[-int(left_speed_entry.get()), int(right_speed_entry.get())])
+    mqtt_client.send_message("drive", [-int(left_speed_entry.get()), int(right_speed_entry.get())])
+
 
 def send_right(mqtt_client, left_speed_entry, right_speed_entry):
     print("right")
-    mqtt_client.send_message("drive",[int(left_speed_entry.get()), -int(right_speed_entry.get())])
+    mqtt_client.send_message("drive", [int(left_speed_entry.get()), -int(right_speed_entry.get())])
+
 
 def send_back(mqtt_client, left_speed_entry, right_speed_entry):
     print("backward")
     mqtt_client.send_message("drive", [-int(left_speed_entry.get()), -int(right_speed_entry.get())])
 
+
 def send_stop(mqtt_client):
     print("stop")
     mqtt_client.send_message("stop")
+
 
 # Quit and Exit button callbacks
 def quit_program(mqtt_client, shutdown_ev3):
     if shutdown_ev3:
         print("shutdown")
         mqtt_client.send_message("shutdown")
-    mqtt_client.close()
+    # mqtt_client.close()
     exit()
 
-def search_color(mqtt_client):
-    mqtt_client.send_message("search")
 
+def search_color(mqtt_client):
+    mqtt_client.send_message("search1")
+
+
+def check_color(mqtt_client):
+    mqtt_client.send_message("currentcolor")
+
+
+def draw_circle(mqtt_client, speed):
+    print("draw circle")
+    speed = int(speed.get())
+    halfspeed = speed/2
+    mqtt_client.send_message("drive", [int(speed), int(halfspeed)])
+
+
+def draw_square(mqtt_client, speed):
+    print("draw square")
+    for k in range(5):
+        print("side", k)
+        mqtt_client.send_message("drive", [int(speed.get()), int(speed.get())])
+        time.sleep(3)
+        mqtt_client.send_message("stop")
+        mqtt_client.send_message("turn_degrees", [int(90), int(speed.get())])
+        mqtt_client.send_message("stop")
+
+
+def draw_triangle(mqtt_client, speed):
+    for k in range(4):
+        print("side", k)
+        mqtt_client.send_message("drive", [int(speed.get()), int(speed.get())])
+        time.sleep(3)
+        mqtt_client.send_message("stop")
+        mqtt_client.send_message("turn_degrees", [int(120), int(speed.get())])
+        mqtt_client.send_message("stop")
 
 
 
