@@ -100,27 +100,27 @@ def quit_game(mqtt_client):
 
 def send_forward(mqtt_client, left_speed, right_speed):
     print("forward")
-    mqtt_client.send_message("drive",[int(left_speed),
+    mqtt_client.send_message("drive_forward",[int(left_speed),
                                       int(right_speed)])
 
 def send_left(mqtt_client, left_speed, right_speed):
     print("left")
-    mqtt_client.send_message("drive",[int(left_speed),
+    mqtt_client.send_message("turn_left",[int(left_speed),
                                       int(right_speed)])
 
 def send_right(mqtt_client, left_speed, right_speed):
     print("right")
-    mqtt_client.send_message("drive",[int(left_speed),
+    mqtt_client.send_message("turn_right",[int(left_speed),
                                       int(right_speed)])
 
 def send_back(mqtt_client,left_speed,right_speed):
     print("backward")
-    mqtt_client.send_message("backward",[int(left_speed),
+    mqtt_client.send_message("drive_backward",[int(left_speed),
                                          int(right_speed)])
 
 def send_stop(mqtt_client):
     print("stop")
-    mqtt_client.send_message("stop")
+    mqtt_client.send_message("make_stop")
 
 
 main()
