@@ -123,7 +123,7 @@ def send_right(mqtt_client, left_speed_entry, right_speed_entry):
     mqtt_client.send_message("drive",[int(left_speed_entry.get()),
                                       -int(right_speed_entry.get())])
 
-def send_back(mqtt_client,left_speed_entry,right_speed_entry):
+def send_back(mqtt_client, left_speed_entry, right_speed_entry):
     print("backward")
     mqtt_client.send_message("backward",[int(left_speed_entry.get()),
                                          int(right_speed_entry.get())])
@@ -132,8 +132,5 @@ def send_stop(mqtt_client):
     print("stop")
     mqtt_client.send_message("stop")
 
-def color_change(mqtt_client2, color):
-    if color == ev3.ColorSensor.COLOR_BLUE:
-        send_stop(mqtt_client2)
-        print('You are in the water. You lose')
+
 main()
