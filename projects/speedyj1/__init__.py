@@ -9,7 +9,7 @@ from PIL import ImageTk, Image
 import ev3dev.ev3 as ev3
 import robot_controller as robo
 import time
-left_motor = ev3.LargeMotor(ev3.OUTPUT_D)
+left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
 right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
 robot = robo.Snatch3r
 
@@ -88,13 +88,12 @@ def main():
     back_button['command'] = lambda: drive_backward(mqtt_client2, -600, -600)
     root1.bind('<Down>', lambda event: drive_backward(mqtt_client2, -600, -600))
 
-    root.mainloop()
-    root1.mainloop()
-
-
     if robot.color_sensor.color == ev3.ColorSensor.COLOR_BLUE:
         robot.stop()
-        ev3.Sound.speak("You are in the water. You lose."
+        ev3.Sound.speak("You are in the water. You lose.")
+
+    root.mainloop()
+    root1.mainloop()
 
 def restart_game(mqtt_client, x):
     if mqtt_client:
