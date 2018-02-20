@@ -88,12 +88,15 @@ def main():
     back_button['command'] = lambda: drive_backward(mqtt_client2, -600, -600)
     root1.bind('<Down>', lambda event: drive_backward(mqtt_client2, -600, -600))
 
-    if robot.color_sensor.color == ev3.ColorSensor.COLOR_BLUE:
-        robot.stop()
-        ev3.Sound.speak("You are in the water. You lose.")
-
     root.mainloop()
     root1.mainloop()
+
+    game = True
+    while game == True:
+        if ev3.ColorSensor.color == ev3.ColorSensor.COLOR_BLUE:
+            make_stop()
+            ev3.Sound.speak("You are in the water. You lose.")
+            game = False
 
 def restart_game(mqtt_client, x):
     if mqtt_client:
